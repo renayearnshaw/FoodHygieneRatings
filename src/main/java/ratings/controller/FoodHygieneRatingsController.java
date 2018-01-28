@@ -17,10 +17,15 @@ import ratings.service.RatingsService;
 @RequestMapping("/foodhygiene/authorities")
 public class FoodHygieneRatingsController {
 	
-	@Autowired AuthoritiesService authoritiesService;
-	@Autowired RatingsService ratingsService;
+    private AuthoritiesService authoritiesService;
+	private RatingsService ratingsService;
 
-	@RequestMapping()
+    public FoodHygieneRatingsController(AuthoritiesService authoritiesService, RatingsService ratingsService) {
+        this.authoritiesService = authoritiesService;
+        this.ratingsService = ratingsService;
+    }
+
+    @RequestMapping()
     public List<Authority> getAuthorities() {
         return authoritiesService.getAuthorities();
     }

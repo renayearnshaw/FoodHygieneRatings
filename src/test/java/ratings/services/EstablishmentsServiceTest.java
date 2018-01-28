@@ -10,11 +10,13 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import ratings.model.Establishment;
 import ratings.service.EstablishmentsService;
+import ratings.service.EstablishmentsServiceImpl;
 
 public class EstablishmentsServiceTest {
 	private static final int AUTHORITY_ID = 197;
-	private static final String VERSION = "2";
-	private static final String WRONG_VERSION = "1";
+	private static final String VERSION_KEY = "x-api-version";
+	private static final String VERSION_VALUE = "2";
+	private static final String WRONG_VERSION_VALUE = "1";
 	private static final String ESTABLISHMENTS_URI = "http://api.ratings.food.gov.uk/Establishments?localAuthorityId=%d&pageSize=0";
 	private static final String WRONG_ESTABLISHMENTS_URI = "http://api.ratings.food.gov.uk/EstablishmentsXXX?localAuthorityId=%d&pageSize=0";
 	private List<Establishment> establishments;
@@ -22,27 +24,27 @@ public class EstablishmentsServiceTest {
 	
 	@Test
 	public void testEstablishmentsNotNull() {
-		establishmentsService = new EstablishmentsService();
+		establishmentsService = new EstablishmentsServiceImpl(VERSION_KEY, VERSION_VALUE, ESTABLISHMENTS_URI);
 		establishments = establishmentsService.getEstablishmentsInAuthority(AUTHORITY_ID);
 		assertNotNull(establishments);
 	}
 	
 	@Test
 	public void testEstablishmentsNotZero() {
-		establishmentsService = new EstablishmentsService();
+		establishmentsService = new EstablishmentsServiceImpl(VERSION_KEY, VERSION_VALUE, ESTABLISHMENTS_URI);
 		establishments = establishmentsService.getEstablishmentsInAuthority(AUTHORITY_ID);
 		assertNotEquals(0, establishments.size());
 	}
 	
 	@Test(expected = HttpClientErrorException.class)
 	public void testEstablishmentsWithWrongVersionThrowsException() {
-		establishmentsService = new EstablishmentsService(WRONG_VERSION, ESTABLISHMENTS_URI);
+		establishmentsService = new EstablishmentsServiceImpl(VERSION_KEY, WRONG_VERSION_VALUE, ESTABLISHMENTS_URI);
 		establishments = establishmentsService.getEstablishmentsInAuthority(AUTHORITY_ID);
 	}
 	
 	@Test(expected = HttpClientErrorException.class)
 	public void testEstablishmentsWithWrongUriThrowsException() {
-		establishmentsService = new EstablishmentsService(VERSION, WRONG_ESTABLISHMENTS_URI);
+		establishmentsService = new EstablishmentsServiceImpl(VERSION_KEY, VERSION_VALUE, WRONG_ESTABLISHMENTS_URI);
 		establishments = establishmentsService.getEstablishmentsInAuthority(AUTHORITY_ID);
 	}
 }
