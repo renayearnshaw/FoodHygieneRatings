@@ -1,4 +1,4 @@
-package ratings.services;
+package ratings.service;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import ratings.model.Authority;
 import ratings.service.AuthoritiesService;
 import ratings.service.AuthoritiesServiceImpl;
 
-public class AuthoritiesServiceTest {
+public class AuthoritiesServiceIT {
 	private static final String VERSION_KEY = "x-api-version";
 	private static final String VERSION_VALUE = "2";
 	private static final String WRONG_VERSION_VALUE = "1";

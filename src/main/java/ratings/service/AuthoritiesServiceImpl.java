@@ -15,15 +15,15 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
 	
 	private HttpHeaders headers = new HttpHeaders();
 	private String uri;
+	private RestTemplate restTemplate = new RestTemplate();
 
 	public AuthoritiesServiceImpl(String apiVersionKey, String apiVersionValue, String uri) {
 		headers.set(apiVersionKey, apiVersionValue);
 		this.uri = uri;
 	}
-	
+
 	@Override
 	public List<Authority> getAuthorities() {
-		RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<AuthorityResponse> response = restTemplate.exchange(
 				uri, 
 				HttpMethod.GET,

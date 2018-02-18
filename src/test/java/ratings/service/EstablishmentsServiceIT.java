@@ -1,18 +1,15 @@
-package ratings.services;
+package ratings.service;
+
+import org.junit.Test;
+import org.springframework.web.client.HttpClientErrorException;
+import ratings.model.Establishment;
+
+import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.List;
-
-import org.junit.Test;
-import org.springframework.web.client.HttpClientErrorException;
-
-import ratings.model.Establishment;
-import ratings.service.EstablishmentsService;
-import ratings.service.EstablishmentsServiceImpl;
-
-public class EstablishmentsServiceTest {
+public class EstablishmentsServiceIT {
 	private static final int AUTHORITY_ID = 197;
 	private static final String VERSION_KEY = "x-api-version";
 	private static final String VERSION_VALUE = "2";
