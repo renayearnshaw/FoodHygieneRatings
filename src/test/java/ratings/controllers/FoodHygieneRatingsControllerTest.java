@@ -1,15 +1,14 @@
-package ratings.controller;
+package ratings.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ratings.model.Authority;
-import ratings.service.AuthoritiesService;
-import ratings.service.RatingsService;
+import ratings.services.AuthoritiesService;
+import ratings.services.RatingsService;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package ratings.service;
+package ratings.services;
 
 import java.util.Map;
 

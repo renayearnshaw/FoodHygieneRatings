@@ -1,4 +1,4 @@
-package ratings.service;
+package ratings.services;
 
 import static org.junit.Assert.*;
 
@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
 
 import ratings.model.Authority;
-import ratings.service.AuthoritiesService;
-import ratings.service.AuthoritiesServiceImpl;
 
 public class AuthoritiesServiceIT {
 	private static final String VERSION_KEY = "x-api-version";

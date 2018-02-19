@@ -1,14 +1,14 @@
-package ratings.config;
+package ratings.configs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ratings.service.EstablishmentsService;
-import ratings.service.EstablishmentsServiceImpl;
+import ratings.services.AuthoritiesService;
+import ratings.services.AuthoritiesServiceImpl;
 
 @Configuration
-public class EstablishmentsConfig {
-    @Value(value = "${establishments.url}")
+public class AuthoritiesConfig {
+    @Value(value = "${authorities.url}")
     private String uri;
     @Value(value = "${headers.api_version.key}")
     private String apiVersionKey;
@@ -16,7 +16,7 @@ public class EstablishmentsConfig {
     private String apiVersionValue;
 
     @Bean
-    EstablishmentsService getEstablishmentsService() {
-        return new EstablishmentsServiceImpl(apiVersionKey, apiVersionValue, uri);
+    AuthoritiesService getAuthoritiesService() {
+        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, uri);
     }
 }

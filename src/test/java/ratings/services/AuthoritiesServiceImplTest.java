@@ -1,4 +1,4 @@
-package ratings.service;
+package ratings.services;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +10,11 @@ import org.springframework.web.client.RestTemplate;
 import ratings.model.Authority;
 import ratings.model.AuthorityResponse;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

@@ -1,4 +1,4 @@
-package ratings.service;
+package ratings.services;
 
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
