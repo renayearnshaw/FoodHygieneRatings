@@ -12,7 +12,7 @@ import ratings.model.Rating;
 @Service
 public class RatingsServiceImpl implements RatingsService {
 
-	private EstablishmentsService establishmentsService;
+	private final EstablishmentsService establishmentsService;
 
 	public RatingsServiceImpl(EstablishmentsService establishmentsService) {
 		this.establishmentsService = establishmentsService;

@@ -16,8 +16,8 @@ import ratings.services.RatingsService;
 @RequestMapping("/foodhygiene/authorities")
 public class FoodHygieneRatingsController {
 	
-    private AuthoritiesService authoritiesService;
-	private RatingsService ratingsService;
+    private final AuthoritiesService authoritiesService;
+	private final RatingsService ratingsService;
 
     public FoodHygieneRatingsController(AuthoritiesService authoritiesService, RatingsService ratingsService) {
         this.authoritiesService = authoritiesService;

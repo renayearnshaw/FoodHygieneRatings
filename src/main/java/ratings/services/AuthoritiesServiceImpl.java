@@ -13,8 +13,8 @@ import ratings.model.AuthorityResponse;
 
 public class AuthoritiesServiceImpl implements AuthoritiesService {
 	
-	private HttpHeaders headers = new HttpHeaders();
-	private String uri;
+	private final HttpHeaders headers = new HttpHeaders();
+	private final String uri;
 	private RestTemplate restTemplate = new RestTemplate();
 
 	public AuthoritiesServiceImpl(String apiVersionKey, String apiVersionValue, String uri) {

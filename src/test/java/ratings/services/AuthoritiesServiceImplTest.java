@@ -2,10 +2,12 @@ package ratings.services;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import ratings.model.Authority;
 import ratings.model.AuthorityResponse;
@@ -26,9 +28,6 @@ public class AuthoritiesServiceImplTest {
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private RestTemplate restTemplate;
-
-    @Mock
-    ResponseEntity<AuthorityResponse> responseEntity;
 
     @Mock
     AuthorityResponse authorityResponse;

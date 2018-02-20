@@ -12,8 +12,8 @@ import ratings.model.Establishment;
 import ratings.model.EstablishmentResponse;
 
 public class EstablishmentsServiceImpl implements EstablishmentsService {
-	private HttpHeaders headers = new HttpHeaders();
-	private String uri;
+	private final HttpHeaders headers = new HttpHeaders();
+	private final String uri;
 
 	public EstablishmentsServiceImpl(String apiVersionKey, String apiVersionValue, String uri) {
 		headers.set(apiVersionKey, apiVersionValue);

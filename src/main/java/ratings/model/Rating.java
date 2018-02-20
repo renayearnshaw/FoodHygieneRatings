@@ -15,9 +15,9 @@ public enum Rating {
 	@JsonProperty("AwaitingInspection") AWAITINGINSPECTION("Awaiting Inspection"),
 	@JsonProperty("Awaiting Inspection") AWAITING_INSPECTION("Awaiting Inspection");
 
-    private String name;
+    private final String name;
 
-    private Rating(String name) {
+    Rating(String name) {
         this.name = name;
     }
 
