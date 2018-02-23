@@ -7,6 +7,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.web.client.HttpClientErrorException;
 
+import org.springframework.web.client.RestTemplate;
 import ratings.model.Authority;
 
 public class AuthoritiesServiceIT {
@@ -20,27 +21,27 @@ public class AuthoritiesServiceIT {
 	
 	@Test
 	public void testAuthoritiesNotNull() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI);
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 		assertNotNull(authorities);
 	}
 	
 	@Test
 	public void testAuthoritiesNotZero() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI);
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 		assertNotEquals(0, authorities.size());
 	}
 	
 	@Test(expected = HttpClientErrorException.class)
 	public void testAuthoritiesWithWrongVersionThrowsException() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, WRONG_VERSION_VALUE, AUTHORITIES_URI);
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, WRONG_VERSION_VALUE, AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 	}
 	
 	@Test(expected = HttpClientErrorException.class)
 	public void testAuthoritiesWithWrongUriThrowsException() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, WRONG_AUTHORITIES_URI);
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, WRONG_AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 	}
 }

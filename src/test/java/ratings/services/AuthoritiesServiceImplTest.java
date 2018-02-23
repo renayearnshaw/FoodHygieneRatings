@@ -32,12 +32,13 @@ public class AuthoritiesServiceImplTest {
     @Mock
     AuthorityResponse authorityResponse;
 
-    @InjectMocks
-    private AuthoritiesService authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI);
+    private AuthoritiesService authoritiesService;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+        authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI, restTemplate);
     }
 
     @Test

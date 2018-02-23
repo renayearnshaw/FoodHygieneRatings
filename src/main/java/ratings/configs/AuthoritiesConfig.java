@@ -3,6 +3,7 @@ package ratings.configs;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import ratings.services.AuthoritiesService;
 import ratings.services.AuthoritiesServiceImpl;
 
@@ -17,6 +18,6 @@ public class AuthoritiesConfig {
 
     @Bean
     AuthoritiesService getAuthoritiesService() {
-        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, uri);
+        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, uri, new RestTemplate());
     }
 }

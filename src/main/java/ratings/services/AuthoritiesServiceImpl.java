@@ -15,11 +15,12 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
 	
 	private final HttpHeaders headers = new HttpHeaders();
 	private final String uri;
-	private RestTemplate restTemplate = new RestTemplate();
+	private final RestTemplate restTemplate;
 
-	public AuthoritiesServiceImpl(String apiVersionKey, String apiVersionValue, String uri) {
+	public AuthoritiesServiceImpl(String apiVersionKey, String apiVersionValue, String uri, RestTemplate restTemplate) {
 		headers.set(apiVersionKey, apiVersionValue);
 		this.uri = uri;
+		this.restTemplate = restTemplate;
 	}
 
 	@Override
