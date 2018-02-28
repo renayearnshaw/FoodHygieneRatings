@@ -21,27 +21,27 @@ public class AuthoritiesServiceIT {
 	
 	@Test
 	public void testAuthoritiesNotNull() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI, new RestTemplate());
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, 1, 20, AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 		assertNotNull(authorities);
 	}
 	
 	@Test
 	public void testAuthoritiesNotZero() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI, new RestTemplate());
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, 1, 20, AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 		assertNotEquals(0, authorities.size());
 	}
 	
 	@Test(expected = HttpClientErrorException.class)
 	public void testAuthoritiesWithWrongVersionThrowsException() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, WRONG_VERSION_VALUE, AUTHORITIES_URI, new RestTemplate());
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, WRONG_VERSION_VALUE, 1, 20, AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 	}
 	
 	@Test(expected = HttpClientErrorException.class)
 	public void testAuthoritiesWithWrongUriThrowsException() {
-		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, WRONG_AUTHORITIES_URI, new RestTemplate());
+		authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, 1, 20, WRONG_AUTHORITIES_URI, new RestTemplate());
 		authorities = authoritiesService.getAuthorities();
 	}
 }

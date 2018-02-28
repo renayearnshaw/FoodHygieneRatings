@@ -17,9 +17,9 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
 	private final String uri;
 	private final RestTemplate restTemplate;
 
-	public AuthoritiesServiceImpl(String apiVersionKey, String apiVersionValue, String uri, RestTemplate restTemplate) {
+	public AuthoritiesServiceImpl(String apiVersionKey, String apiVersionValue, int pageNumber, int pageSize, String uri, RestTemplate restTemplate) {
 		headers.set(apiVersionKey, apiVersionValue);
-		this.uri = uri;
+		this.uri = String.format("%s/%d/%d", uri, pageNumber, pageSize);
 		this.restTemplate = restTemplate;
 	}
 

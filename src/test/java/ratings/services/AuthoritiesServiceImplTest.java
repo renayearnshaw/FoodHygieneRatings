@@ -3,7 +3,6 @@ package ratings.services;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpEntity;
@@ -38,7 +37,7 @@ public class AuthoritiesServiceImplTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, AUTHORITIES_URI, restTemplate);
+        authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, 1, 20, AUTHORITIES_URI, restTemplate);
     }
 
     @Test

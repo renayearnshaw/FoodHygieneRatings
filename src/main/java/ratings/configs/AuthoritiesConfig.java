@@ -15,9 +15,13 @@ public class AuthoritiesConfig {
     private String apiVersionKey;
     @Value(value = "${headers.api_version.value}")
     private String apiVersionValue;
+    @Value(value = "${authorities.pageNumber}")
+    private int pageNumber;
+    @Value(value = "${authorities.pageSize}")
+    private int pageSize;
 
     @Bean
     AuthoritiesService getAuthoritiesService() {
-        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, uri, new RestTemplate());
+        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, pageNumber, pageSize, uri, new RestTemplate());
     }
 }
