@@ -22,49 +22,30 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class FoodHygieneRatingsControllerTest {
-
-    @Mock
-    private AuthoritiesService authoritiesService;
+public class RatingsControllerTest {
 
     @Mock
     private RatingsService ratingsService;
 
-    private FoodHygieneRatingsController ratingsController;
+    private RatingsController ratingsController;
     private static final long AUTHORITY_ID = 275;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ratingsController = new FoodHygieneRatingsController(authoritiesService, ratingsService);
+        ratingsController = new RatingsController(ratingsService);
     }
 
     @Test
     public void testMockMVC() throws Exception {
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(ratingsController).build();
 
-        mockMvc.perform(get("/foodhygiene/authorities"))
-                .andExpect(status().isOk());
-        mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings/summary", AUTHORITY_ID)))
+        mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", AUTHORITY_ID)))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void getAuthorities() {
-        //Given
-        List<Authority> authorities = Collections.singletonList(new Authority());
-        when(authoritiesService.getAuthorities()).thenReturn(authorities);
-
-        //When
-        List<Authority> returnedAuthorities = ratingsController.getAuthorities();
-
-        //Then
-        verify(authoritiesService, times(1)).getAuthorities();
-        assertEquals(authorities, returnedAuthorities);
-    }
-
-    @Test
-    public void getRatingsSummary() {
+    public void getRatings() {
         //Given
         final Map<String, String> ratings = Collections.singletonMap("1-star", "2.57%");
 
