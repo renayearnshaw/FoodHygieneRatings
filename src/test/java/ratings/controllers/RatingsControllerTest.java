@@ -1,7 +1,6 @@
 package ratings.controllers;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -10,19 +9,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import ratings.model.Authority;
-import ratings.services.AuthoritiesService;
 import ratings.services.RatingsService;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -38,6 +32,7 @@ public class RatingsControllerTest {
     private RatingsService ratingsService;
 
     @Mock
+    private
     Model model;
 
     private RatingsController ratingsController;
@@ -66,6 +61,7 @@ public class RatingsControllerTest {
         //Given
         final Map<String, String> ratings = Collections.singletonMap(RATING_DESCRIPTION, RATING_PERCENTAGE);
         when(ratingsService.getRatingSummaryForAuthority(AUTHORITY_ID)).thenReturn(ratings);
+        @SuppressWarnings("unchecked")
         ArgumentCaptor<Map<String, String>> argumentCaptor = ArgumentCaptor.forClass(Map.class);
 
         //When

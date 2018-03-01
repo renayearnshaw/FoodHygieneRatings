@@ -16,6 +16,7 @@ public class RatingsController {
         this.ratingsService = ratingsService;
     }
 
+    @SuppressWarnings("SameReturnValue")
     @RequestMapping("/foodhygiene/authorities/{authorityId}/ratings")
     public String getRatingsSummary(
             @PathVariable Long authorityId,

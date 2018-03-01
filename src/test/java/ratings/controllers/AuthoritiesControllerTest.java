@@ -58,6 +58,7 @@ public class AuthoritiesControllerTest {
         //Given
         List<Authority> authorities = Collections.singletonList(new Authority());
         when(authoritiesService.getAuthorities()).thenReturn(authorities);
+        @SuppressWarnings("unchecked")
         ArgumentCaptor<List<Authority>> argumentCaptor = ArgumentCaptor.forClass(List.class);
 
         //When

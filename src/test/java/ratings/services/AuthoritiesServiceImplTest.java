@@ -28,9 +28,6 @@ public class AuthoritiesServiceImplTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private RestTemplate restTemplate;
 
-    @Mock
-    AuthorityResponse authorityResponse;
-
     private AuthoritiesService authoritiesService;
 
     @Before

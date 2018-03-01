@@ -15,6 +15,7 @@ public class AuthoritiesController {
         this.authoritiesService = authoritiesService;
     }
 
+    @SuppressWarnings("SameReturnValue")
     @RequestMapping("/foodhygiene/authorities")
     public String getAuthorities(Model model) {
 
