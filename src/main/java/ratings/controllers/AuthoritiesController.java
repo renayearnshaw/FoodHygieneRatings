@@ -1,15 +1,12 @@
 package ratings.controllers;
 
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ratings.model.Authority;
 import ratings.services.AuthoritiesService;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/foodhygiene/authorities")
+@Controller
 public class AuthoritiesController {
 
     private final AuthoritiesService authoritiesService;
@@ -18,9 +15,13 @@ public class AuthoritiesController {
         this.authoritiesService = authoritiesService;
     }
 
-    @RequestMapping()
-    public List<Authority> getAuthorities() {
-        return authoritiesService.getAuthorities();
+    @RequestMapping("/foodhygiene/authorities")
+    public String getAuthorities(Model model) {
+
+        model.addAttribute("authorities", authoritiesService.getAuthorities());
+
+        return "authorities";
     }
 
 }
+

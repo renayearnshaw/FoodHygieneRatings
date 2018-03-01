@@ -2,10 +2,13 @@ package ratings.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ratings.model.Authority;
 import ratings.services.AuthoritiesService;
 
@@ -17,26 +20,37 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class AuthoritiesControllerTest {
+
+    private static final String VIEW_NAME = "authorities";
 
     @Mock
     private AuthoritiesService authoritiesService;
 
-    private AuthoritiesController authoritiesController;
+    @Mock
+    private Model model;
+
+    private AuthoritiesController controller;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        authoritiesController = new AuthoritiesController(authoritiesService);
+        controller = new AuthoritiesController(authoritiesService);
     }
 
     @Test
     public void testMockMVC() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(authoritiesController).build();
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/templates/");
+        viewResolver.setSuffix(".html");
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(controller).setViewResolvers(viewResolver).build();
 
         mockMvc.perform(get("/foodhygiene/authorities"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name(VIEW_NAME));
     }
 
     @Test
@@ -44,12 +58,16 @@ public class AuthoritiesControllerTest {
         //Given
         List<Authority> authorities = Collections.singletonList(new Authority());
         when(authoritiesService.getAuthorities()).thenReturn(authorities);
+        ArgumentCaptor<List<Authority>> argumentCaptor = ArgumentCaptor.forClass(List.class);
 
         //When
-        List<Authority> returnedAuthorities = authoritiesController.getAuthorities();
+        String viewName = controller.getAuthorities(model);
 
         //Then
+        assertEquals(viewName, VIEW_NAME);
         verify(authoritiesService, times(1)).getAuthorities();
-        assertEquals(authorities, returnedAuthorities);
+        verify(model, times(1)).addAttribute(eq("authorities"), argumentCaptor.capture());
+        List<Authority> authoritiesInController = argumentCaptor.getValue();
+        assertEquals(1, authoritiesInController.size());
     }
 }

@@ -1,11 +1,15 @@
 package ratings.controllers;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ratings.model.Authority;
 import ratings.services.AuthoritiesService;
 import ratings.services.RatingsService;
@@ -21,14 +25,22 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class RatingsControllerTest {
+
+    private static final String VIEW_NAME = "ratings";
+    private static final long AUTHORITY_ID = 275;
+    private static final String RATING_DESCRIPTION = "1-star";
+    private static final String RATING_PERCENTAGE = "2.57%";
 
     @Mock
     private RatingsService ratingsService;
 
+    @Mock
+    Model model;
+
     private RatingsController ratingsController;
-    private static final long AUTHORITY_ID = 275;
 
     @Before
     public void setUp() {
@@ -38,24 +50,34 @@ public class RatingsControllerTest {
 
     @Test
     public void testMockMVC() throws Exception {
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(ratingsController).build();
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/templates/");
+        viewResolver.setSuffix(".html");
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(ratingsController).setViewResolvers(viewResolver).build();
 
         mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", AUTHORITY_ID)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name(VIEW_NAME));
     }
 
     @Test
     public void getRatings() {
         //Given
-        final Map<String, String> ratings = Collections.singletonMap("1-star", "2.57%");
-
+        final Map<String, String> ratings = Collections.singletonMap(RATING_DESCRIPTION, RATING_PERCENTAGE);
         when(ratingsService.getRatingSummaryForAuthority(AUTHORITY_ID)).thenReturn(ratings);
+        ArgumentCaptor<Map<String, String>> argumentCaptor = ArgumentCaptor.forClass(Map.class);
 
         //When
-        Map<String, String> returnValue = ratingsController.getRatingsSummary(AUTHORITY_ID);
+        String viewName = ratingsController.getRatingsSummary(AUTHORITY_ID, model);
 
         //Then
-        assertEquals(ratings, returnValue);
+        assertEquals(viewName, VIEW_NAME);
         verify(ratingsService, times(1)).getRatingSummaryForAuthority(eq(AUTHORITY_ID));
+        verify(model, times(1)).addAttribute(eq("ratings"), argumentCaptor.capture());
+        Map<String, String> ratingsInController = argumentCaptor.getValue();
+        assertEquals(1, ratingsInController.size());
+        assertEquals(RATING_PERCENTAGE, ratingsInController.get(RATING_DESCRIPTION));
+        verify(model, times(1)).addAttribute(eq("authorityId"), eq(AUTHORITY_ID));
     }
 }

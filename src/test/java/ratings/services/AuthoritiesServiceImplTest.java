@@ -36,7 +36,6 @@ public class AuthoritiesServiceImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
         authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, 1, 20, AUTHORITIES_URI, restTemplate);
     }
 
