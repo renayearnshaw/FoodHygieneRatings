@@ -3,7 +3,7 @@ package ratings.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import ratings.services.AuthoritiesService;
 
 @Controller
@@ -16,7 +16,7 @@ public class AuthoritiesController {
     }
 
     @SuppressWarnings("SameReturnValue")
-    @RequestMapping("/foodhygiene/authorities")
+    @GetMapping("/foodhygiene/authorities")
     public String getAuthorities(Model model) {
 
         model.addAttribute("authorities", authoritiesService.getAuthorities());
