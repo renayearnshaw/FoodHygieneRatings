@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import ratings.exceptions.NotFoundException;
 import ratings.services.RatingsService;
 
 import java.util.Collections;
@@ -25,6 +26,7 @@ public class RatingsControllerTest {
 
     private static final String VIEW_NAME = "ratings";
     private static final long AUTHORITY_ID = 275;
+    private static final long NON_EXISTENT_AUTHORITY_ID = 999999;
     private static final String RATING_DESCRIPTION = "1-star";
     private static final String RATING_PERCENTAGE = "2.57%";
 
@@ -36,24 +38,38 @@ public class RatingsControllerTest {
     Model model;
 
     private RatingsController ratingsController;
+    private MockMvc mockMvc;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         ratingsController = new RatingsController(ratingsService);
+        mockMvc = getMockMvcWithViewResolver();
     }
 
-    @Test
-    public void testMockMVC() throws Exception {
+    private MockMvc getMockMvcWithViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/templates/");
         viewResolver.setSuffix(".html");
 
-        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(ratingsController).setViewResolvers(viewResolver).build();
+        return MockMvcBuilders.standaloneSetup(ratingsController).setViewResolvers(viewResolver).build();
+    }
 
+    @Test
+    public void testGetRatings() throws Exception {
         mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", AUTHORITY_ID)))
                 .andExpect(status().isOk())
                 .andExpect(view().name(VIEW_NAME));
+    }
+
+    @Test
+    public void testAuthorityNotFound() throws Exception {
+        //Given
+        when(ratingsService.getRatingSummaryForAuthority(anyLong())).thenThrow(NotFoundException.class);
+
+        //When,Then
+        mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", NON_EXISTENT_AUTHORITY_ID)))
+                .andExpect(status().isNotFound());
     }
 
     @Test

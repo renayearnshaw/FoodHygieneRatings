@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import ratings.exceptions.NotFoundException;
 import ratings.model.Establishment;
 import ratings.model.Rating;
 
@@ -22,6 +23,11 @@ public class RatingsServiceImpl implements RatingsService {
 	public Map<String, String> getRatingSummaryForAuthority(long authorityId) {
 		
 		List<Establishment> establishmentsInAuthority = establishmentsService.getEstablishmentsInAuthority(authorityId);
+
+		if (establishmentsInAuthority.isEmpty()) {
+			throw new NotFoundException(String.format("No establishments found for authority ID \'%d\'", authorityId));
+		}
+
 		long totalCount = establishmentsInAuthority.parallelStream().count();
 		
 		return ratingsAsPercentage(establishmentsInAuthority, totalCount);
