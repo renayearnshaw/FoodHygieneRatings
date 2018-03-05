@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
@@ -15,16 +16,17 @@ import ratings.services.RatingsService;
 import java.util.Collections;
 import java.util.Map;
 
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class RatingsControllerTest {
 
-    private static final String VIEW_NAME = "ratings";
+    private static final String RATINGS_VIEW_NAME = "ratings";
+    private static final String ERROR_VIEW_NAME = "error";
     private static final long AUTHORITY_ID = 275;
     private static final long NON_EXISTENT_AUTHORITY_ID = 999999;
     private static final String RATING_DESCRIPTION = "1-star";
@@ -59,7 +61,7 @@ public class RatingsControllerTest {
     public void testGetRatings() throws Exception {
         mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", AUTHORITY_ID)))
                 .andExpect(status().isOk())
-                .andExpect(view().name(VIEW_NAME));
+                .andExpect(view().name(RATINGS_VIEW_NAME));
     }
 
     @Test
@@ -69,7 +71,10 @@ public class RatingsControllerTest {
 
         //When,Then
         mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", NON_EXISTENT_AUTHORITY_ID)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(model().attribute("httpStatus", HttpStatus.NOT_FOUND))
+                .andExpect(model().attribute("exception",  instanceOf(NotFoundException.class)))
+                .andExpect(view().name(ERROR_VIEW_NAME));
     }
 
     @Test
@@ -84,7 +89,7 @@ public class RatingsControllerTest {
         String viewName = ratingsController.getRatingsSummary(AUTHORITY_ID, model);
 
         //Then
-        assertEquals(viewName, VIEW_NAME);
+        assertEquals(viewName, RATINGS_VIEW_NAME);
         verify(ratingsService, times(1)).getRatingSummaryForAuthority(eq(AUTHORITY_ID));
         verify(model, times(1)).addAttribute(eq("ratings"), argumentCaptor.capture());
         Map<String, String> ratingsInController = argumentCaptor.getValue();
