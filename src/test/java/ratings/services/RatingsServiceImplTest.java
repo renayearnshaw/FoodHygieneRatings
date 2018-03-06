@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 public class RatingsServiceImplTest {
 
-    private static long NON_EXISTENT_AUTHORITY = 999999L;
+    private static final long NON_EXISTENT_AUTHORITY = 999999L;
 
     @Mock
     private EstablishmentsService establishmentsService;

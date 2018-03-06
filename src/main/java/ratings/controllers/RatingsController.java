@@ -12,8 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 import ratings.exceptions.NotFoundException;
 import ratings.services.RatingsService;
 
+import static ratings.controllers.utils.ControllerUtils.createModelAndView;
+
 @Controller
 public class RatingsController {
+
+    public static final String VIEW_NAME = "ratings";
 
     private final RatingsService ratingsService;
 
@@ -29,31 +33,19 @@ public class RatingsController {
         model.addAttribute("authorityId", authorityId);
         model.addAttribute("ratings", ratingsService.getRatingSummaryForAuthority(authorityId));
 
-        return "ratings";
+        return VIEW_NAME;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView authourityNotFound(Exception exception) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("errorView");
-        modelAndView.addObject("httpStatus", HttpStatus.NOT_FOUND);
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
+        return createModelAndView(exception, HttpStatus.NOT_FOUND);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NumberFormatException.class)
     public ModelAndView authourityNotNumeric(Exception exception) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("errorView");
-        modelAndView.addObject("httpStatus", HttpStatus.BAD_REQUEST);
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
+        return createModelAndView(exception, HttpStatus.BAD_REQUEST);
     }
 }
 

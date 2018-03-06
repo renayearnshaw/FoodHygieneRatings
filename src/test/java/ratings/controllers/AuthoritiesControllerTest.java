@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ratings.model.Authority;
 import ratings.services.AuthoritiesService;
@@ -26,11 +25,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static ratings.controllers.AuthoritiesController.VIEW_NAME;
+import static ratings.controllers.utils.ControllerUtils.ERROR_VIEW_NAME;
 
 public class AuthoritiesControllerTest {
-
-    private static final String VIEW_NAME = "authorities";
-    private static final String ERROR_VIEW_NAME = "errorView";
 
     @Mock
     private AuthoritiesService authoritiesService;

@@ -11,8 +11,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import ratings.services.AuthoritiesService;
 
+import static ratings.controllers.utils.ControllerUtils.createModelAndView;
+
 @Controller
 public class AuthoritiesController {
+
+    public static final String VIEW_NAME = "authorities";
 
     private final AuthoritiesService authoritiesService;
 
@@ -26,19 +30,15 @@ public class AuthoritiesController {
 
         model.addAttribute("authorities", authoritiesService.getAuthorities());
 
-        return "authorities";
+        return VIEW_NAME;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpClientErrorException.class)
     public ModelAndView badVersionOrURI(Exception exception) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.setViewName("errorView");
-        modelAndView.addObject("httpStatus", HttpStatus.BAD_REQUEST);
-        modelAndView.addObject("exception", exception);
-
-        return modelAndView;
+        return createModelAndView(exception, HttpStatus.BAD_REQUEST);
     }
+
+
 }
 

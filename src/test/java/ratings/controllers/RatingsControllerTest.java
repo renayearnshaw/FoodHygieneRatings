@@ -23,11 +23,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static ratings.controllers.RatingsController.VIEW_NAME;
+import static ratings.controllers.utils.ControllerUtils.ERROR_VIEW_NAME;
 
 public class RatingsControllerTest {
 
-    private static final String RATINGS_VIEW_NAME = "ratings";
-    private static final String ERROR_VIEW_NAME = "errorView";
     private static final long AUTHORITY_ID = 275;
     private static final long NON_EXISTENT_AUTHORITY_ID = 999999;
     private static final String NON_NUMERIC_AUTHORITY_ID = "klsjdflkds";
@@ -63,7 +63,7 @@ public class RatingsControllerTest {
     public void testGetRatings() throws Exception {
         mockMvc.perform(get(String.format("/foodhygiene/authorities/%d/ratings", AUTHORITY_ID)))
                 .andExpect(status().isOk())
-                .andExpect(view().name(RATINGS_VIEW_NAME));
+                .andExpect(view().name(VIEW_NAME));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class RatingsControllerTest {
         String viewName = ratingsController.getRatingsSummary(AUTHORITY_ID, model);
 
         //Then
-        assertEquals(viewName, RATINGS_VIEW_NAME);
+        assertEquals(viewName, VIEW_NAME);
         verify(ratingsService, times(1)).getRatingSummaryForAuthority(eq(AUTHORITY_ID));
         verify(model, times(1)).addAttribute(eq("ratings"), argumentCaptor.capture());
         Map<String, String> ratingsInController = argumentCaptor.getValue();
