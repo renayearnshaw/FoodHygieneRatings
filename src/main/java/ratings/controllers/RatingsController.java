@@ -37,8 +37,20 @@ public class RatingsController {
     public ModelAndView authourityNotFound(Exception exception) {
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.setViewName("error");
+        modelAndView.setViewName("errorView");
         modelAndView.addObject("httpStatus", HttpStatus.NOT_FOUND);
+        modelAndView.addObject("exception", exception);
+
+        return modelAndView;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NumberFormatException.class)
+    public ModelAndView authourityNotNumeric(Exception exception) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("errorView");
+        modelAndView.addObject("httpStatus", HttpStatus.BAD_REQUEST);
         modelAndView.addObject("exception", exception);
 
         return modelAndView;

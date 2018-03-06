@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ratings.exceptions.NotFoundException;
 import ratings.services.RatingsService;
@@ -26,9 +27,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RatingsControllerTest {
 
     private static final String RATINGS_VIEW_NAME = "ratings";
-    private static final String ERROR_VIEW_NAME = "error";
+    private static final String ERROR_VIEW_NAME = "errorView";
     private static final long AUTHORITY_ID = 275;
     private static final long NON_EXISTENT_AUTHORITY_ID = 999999;
+    private static final String NON_NUMERIC_AUTHORITY_ID = "klsjdflkds";
     private static final String RATING_DESCRIPTION = "1-star";
     private static final String RATING_PERCENTAGE = "2.57%";
 
@@ -74,6 +76,16 @@ public class RatingsControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(model().attribute("httpStatus", HttpStatus.NOT_FOUND))
                 .andExpect(model().attribute("exception",  instanceOf(NotFoundException.class)))
+                .andExpect(view().name(ERROR_VIEW_NAME));
+    }
+
+    @Test
+    public void testNonNumericAuthority() throws Exception {
+        //When,Then
+        mockMvc.perform(get(String.format("/foodhygiene/authorities/%s/ratings", NON_NUMERIC_AUTHORITY_ID)))
+                .andExpect(status().isBadRequest())
+                .andExpect(model().attribute("httpStatus", HttpStatus.BAD_REQUEST))
+                .andExpect(model().attribute("exception",  instanceOf(MethodArgumentTypeMismatchException.class)))
                 .andExpect(view().name(ERROR_VIEW_NAME));
     }
 
