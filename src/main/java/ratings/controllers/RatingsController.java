@@ -24,7 +24,7 @@ public class RatingsController {
     @SuppressWarnings("SameReturnValue")
     @GetMapping("/foodhygiene/authorities/{authorityId}/ratings")
     public String getRatingsSummary(
-            @PathVariable Long authorityId,
+            @PathVariable long authorityId,
             Model model) {
         model.addAttribute("authorityId", authorityId);
         model.addAttribute("ratings", ratingsService.getRatingSummaryForAuthority(authorityId));

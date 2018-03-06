@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ratings.model.Authority;
 import ratings.model.AuthorityResponse;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -37,7 +39,7 @@ public class AuthoritiesServiceImplTest {
     }
 
     @Test
-    public void getAuthorities() {
+    public void testGetAuthorities() {
 
         //Given
         AuthorityResponse authorityResponse = new AuthorityResponse();
@@ -50,7 +52,19 @@ public class AuthoritiesServiceImplTest {
 
         //Then
         verify(restTemplate).exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(AuthorityResponse.class));
+        assertNotNull(authorities);
         assertEquals(1, authorities.size());
 
     }
+
+    @Test(expected = HttpClientErrorException.class)
+    public void testGetAuthoritiesWithWrongVersionOrBadURI() {
+        //Given
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(AuthorityResponse.class))
+                .getBody()).thenThrow(HttpClientErrorException.class);
+
+        //When
+        List<Authority> authorities = authoritiesService.getAuthorities();
+    }
+
 }
