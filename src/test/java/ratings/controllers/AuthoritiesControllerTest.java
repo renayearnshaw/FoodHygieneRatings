@@ -26,6 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static ratings.controllers.AuthoritiesController.VIEW_NAME;
+import static ratings.controllers.utils.ControllerTestUtils.getMockMvcWithViewResolver;
 import static ratings.controllers.utils.ControllerUtils.ERROR_VIEW_NAME;
 
 public class AuthoritiesControllerTest {
@@ -43,19 +44,10 @@ public class AuthoritiesControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         controller = new AuthoritiesController(authoritiesService);
-        mockMvc = getMockMvcWithViewResolver();
+        mockMvc = getMockMvcWithViewResolver(controller);
     }
 
-    private MockMvc getMockMvcWithViewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/templates/");
-        viewResolver.setSuffix(".html");
-
-        return MockMvcBuilders.standaloneSetup(controller).setViewResolvers(viewResolver).build();
-    }
-
-
-    @Test
+   @Test
     public void testGetAuthorities() throws Exception {
         mockMvc.perform(get("/foodhygiene/authorities"))
                 .andExpect(status().isOk())

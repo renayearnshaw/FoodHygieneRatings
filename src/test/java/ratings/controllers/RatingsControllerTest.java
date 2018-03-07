@@ -7,10 +7,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ratings.exceptions.NotFoundException;
 import ratings.services.RatingsService;
 
@@ -24,6 +22,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ratings.controllers.RatingsController.VIEW_NAME;
+import static ratings.controllers.utils.ControllerTestUtils.getMockMvcWithViewResolver;
 import static ratings.controllers.utils.ControllerUtils.ERROR_VIEW_NAME;
 
 public class RatingsControllerTest {
@@ -41,22 +40,14 @@ public class RatingsControllerTest {
     private
     Model model;
 
-    private RatingsController ratingsController;
+    private RatingsController controller;
     private MockMvc mockMvc;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ratingsController = new RatingsController(ratingsService);
-        mockMvc = getMockMvcWithViewResolver();
-    }
-
-    private MockMvc getMockMvcWithViewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/templates/");
-        viewResolver.setSuffix(".html");
-
-        return MockMvcBuilders.standaloneSetup(ratingsController).setViewResolvers(viewResolver).build();
+        controller = new RatingsController(ratingsService);
+        mockMvc = getMockMvcWithViewResolver(controller);
     }
 
     @Test
@@ -98,7 +89,7 @@ public class RatingsControllerTest {
         ArgumentCaptor<Map<String, String>> argumentCaptor = ArgumentCaptor.forClass(Map.class);
 
         //When
-        String viewName = ratingsController.getRatingsSummary(AUTHORITY_ID, model);
+        String viewName = controller.getRatingsSummary(AUTHORITY_ID, model);
 
         //Then
         assertEquals(viewName, VIEW_NAME);

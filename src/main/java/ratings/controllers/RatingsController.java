@@ -35,18 +35,6 @@ public class RatingsController {
 
         return VIEW_NAME;
     }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView authourityNotFound(Exception exception) {
-        return createModelAndView(exception, HttpStatus.NOT_FOUND);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public ModelAndView authourityNotNumeric(Exception exception) {
-        return createModelAndView(exception, HttpStatus.BAD_REQUEST);
-    }
 }
 
 

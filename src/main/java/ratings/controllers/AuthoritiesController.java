@@ -32,13 +32,5 @@ public class AuthoritiesController {
 
         return VIEW_NAME;
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpClientErrorException.class)
-    public ModelAndView badVersionOrURI(Exception exception) {
-        return createModelAndView(exception, HttpStatus.BAD_REQUEST);
-    }
-
-
 }
 
