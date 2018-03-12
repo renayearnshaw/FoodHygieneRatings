@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings.svg?style=svg)](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings)
 # FoodHygieneRatings
 The __FoodHygieneRatings__ project contains two endpoints:
 1. <http://localhost:8080/foodhygiene/authorities>
