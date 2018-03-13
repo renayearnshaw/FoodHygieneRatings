@@ -1,5 +1,8 @@
-[![CircleCI](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings.svg?style=svg)](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings)
 # FoodHygieneRatings
+
+[![CircleCI](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings.svg?style=svg)](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings)
+[![codecov](https://codecov.io/gh/renayearnshaw/food-hygiene-ratings/branch/master/graph/badge.svg)](https://codecov.io/gh/renayearnshaw/food-hygiene-ratings)
+
 The __FoodHygieneRatings__ project contains two endpoints:
 1. <http://localhost:8080/foodhygiene/authorities>
 2. <http://localhost:8080/foodhygiene/authorities/{authorityId}/ratings/summary>
