@@ -1,8 +1,9 @@
-package ratings.configs;
+package ratings.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import ratings.services.EstablishmentsService;
 import ratings.services.EstablishmentsServiceImpl;
 
@@ -16,7 +17,7 @@ public class EstablishmentsConfig {
     private String apiVersionValue;
 
     @Bean
-    EstablishmentsService getEstablishmentsService() {
-        return new EstablishmentsServiceImpl(apiVersionKey, apiVersionValue, uri);
+    EstablishmentsService establishmentsService(RestTemplate restTemplate) {
+        return new EstablishmentsServiceImpl(apiVersionKey, apiVersionValue, uri, restTemplate);
     }
 }

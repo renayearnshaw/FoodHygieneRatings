@@ -14,16 +14,17 @@ import ratings.model.EstablishmentResponse;
 public class EstablishmentsServiceImpl implements EstablishmentsService {
 	private final HttpHeaders headers = new HttpHeaders();
 	private final String uri;
+	private final RestTemplate restTemplate;
 
-	public EstablishmentsServiceImpl(String apiVersionKey, String apiVersionValue, String uri) {
+	public EstablishmentsServiceImpl(String apiVersionKey, String apiVersionValue, String uri, RestTemplate restTemplate) {
 		headers.set(apiVersionKey, apiVersionValue);
 		this.uri = uri;
+		this.restTemplate = restTemplate;
 	}
 
 
 	@Override
 	public List<Establishment> getEstablishmentsInAuthority(long authorityId) {
-		RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<EstablishmentResponse> response = restTemplate.exchange(
 				String.format(uri, authorityId), 
 				HttpMethod.GET,

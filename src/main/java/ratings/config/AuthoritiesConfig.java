@@ -1,4 +1,4 @@
-package ratings.configs;
+package ratings.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ public class AuthoritiesConfig {
     private int pageSize;
 
     @Bean
-    AuthoritiesService getAuthoritiesService() {
-        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, pageNumber, pageSize, uri, new RestTemplate());
+    AuthoritiesService authoritiesService(RestTemplate restTemplate) {
+        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, pageNumber, pageSize, uri, restTemplate);
     }
 }
