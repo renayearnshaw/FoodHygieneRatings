@@ -9,6 +9,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import ratings.model.Authority;
 import ratings.model.AuthorityResponse;
 
@@ -25,7 +27,15 @@ public class AuthoritiesServiceImplTest {
 
     private static final String VERSION_KEY = "x-api-version";
     private static final String VERSION_VALUE = "2";
-    private static final String AUTHORITIES_URI = "http://api.ratings.food.gov.uk/Authorities/basic";
+    private static final String SCHEME = "http";
+    private static final String HOST = "api.ratings.food.gov.uk";
+    private static final String PATH = "/Authorities/basic/{pageNumber}/{pageSize}";
+    private final UriComponents uriComponents = UriComponentsBuilder
+            .newInstance()
+            .scheme(SCHEME)
+            .host(HOST)
+            .path(PATH)
+            .buildAndExpand(1, 20);
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private RestTemplate restTemplate;
@@ -35,7 +45,8 @@ public class AuthoritiesServiceImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, 1, 20, AUTHORITIES_URI, restTemplate);
+
+        authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, uriComponents, restTemplate);
     }
 
     @Test
