@@ -6,10 +6,10 @@ import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ratings.model.Authority;
 import ratings.model.AuthorityResponse;
@@ -30,12 +30,14 @@ public class AuthoritiesServiceImplTest {
     private static final String SCHEME = "http";
     private static final String HOST = "api.ratings.food.gov.uk";
     private static final String PATH = "/Authorities/basic/{pageNumber}/{pageSize}";
-    private final UriComponents uriComponents = UriComponentsBuilder
+
+    private final HttpHeaders headers = new HttpHeaders();
+
+    private final UriComponentsBuilder builder = UriComponentsBuilder
             .newInstance()
             .scheme(SCHEME)
             .host(HOST)
-            .path(PATH)
-            .buildAndExpand(1, 20);
+            .path(PATH);
 
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     private RestTemplate restTemplate;
@@ -44,9 +46,11 @@ public class AuthoritiesServiceImplTest {
 
     @Before
     public void setUp() {
+        headers.set(VERSION_KEY, VERSION_VALUE);
+
         MockitoAnnotations.initMocks(this);
 
-        authoritiesService = new AuthoritiesServiceImpl(VERSION_KEY, VERSION_VALUE, uriComponents, restTemplate);
+        authoritiesService = new AuthoritiesServiceImpl(headers, builder, restTemplate, 1, 20);
     }
 
     @Test

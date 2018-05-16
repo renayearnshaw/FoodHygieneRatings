@@ -3,6 +3,7 @@ package ratings.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import ratings.services.EstablishmentsService;
@@ -25,7 +26,7 @@ public class EstablishmentsConfig {
     @Value(value = "${establishments.uri.pageSizeQueryParam}")
     private String pageSizeQueryParam;
 
-    @Bean
+   @Bean
     EstablishmentsService establishmentsService(RestTemplate restTemplate) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .newInstance()
@@ -35,6 +36,9 @@ public class EstablishmentsConfig {
                 .query(idQueryParam)
                 .query(pageSizeQueryParam);
 
-        return new EstablishmentsServiceImpl(apiVersionKey, apiVersionValue, builder, restTemplate);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(apiVersionKey, apiVersionValue);
+
+        return new EstablishmentsServiceImpl(headers, builder, restTemplate);
     }
 }

@@ -1,24 +1,23 @@
 package ratings.services;
 
-import java.util.List;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
 import org.springframework.web.util.UriComponentsBuilder;
 import ratings.model.Establishment;
 import ratings.model.EstablishmentResponse;
 
+import java.util.List;
+
 public class EstablishmentsServiceImpl implements EstablishmentsService {
-	private final HttpHeaders headers = new HttpHeaders();
+	private final HttpHeaders headers;
 	private final UriComponentsBuilder builder;
 	private final RestTemplate restTemplate;
 
-	public EstablishmentsServiceImpl(String apiVersionKey, String apiVersionValue, UriComponentsBuilder builder, RestTemplate restTemplate) {
-		headers.set(apiVersionKey, apiVersionValue);
+	public EstablishmentsServiceImpl(HttpHeaders headers, UriComponentsBuilder builder, RestTemplate restTemplate) {
+		this.headers = headers;
 		this.builder = builder;
 		this.restTemplate = restTemplate;
 	}

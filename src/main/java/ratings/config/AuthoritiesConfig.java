@@ -3,8 +3,8 @@ package ratings.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import ratings.services.AuthoritiesService;
 import ratings.services.AuthoritiesServiceImpl;
@@ -28,12 +28,15 @@ public class AuthoritiesConfig {
 
     @Bean
     AuthoritiesService authoritiesService(RestTemplate restTemplate) {
-        UriComponents uriComponents = UriComponentsBuilder
+        UriComponentsBuilder builder = UriComponentsBuilder
                 .newInstance()
                 .scheme(scheme)
                 .host(host)
-                .path(path)
-                .buildAndExpand(pageNumber, pageSize);
-        return new AuthoritiesServiceImpl(apiVersionKey, apiVersionValue, uriComponents, restTemplate);
+                .path(path);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(apiVersionKey, apiVersionValue);
+
+        return new AuthoritiesServiceImpl(headers, builder, restTemplate, pageNumber, pageSize);
     }
 }
