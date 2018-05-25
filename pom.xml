@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ratings</groupId>
-	<artifactId>ratings</artifactId>
+	<groupId>FoodHygieneRatilngs</groupId>
+	<artifactId>ratings-summary</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
 	<name>FoodHygieneRatings</name>
-	<description>Spring Boot project to proved food hygiene ratings</description>
+	<description>Spring Boot project to provide food hygiene ratings for premises throughout the UK</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -22,6 +22,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+
+		<!--set this to your docker acct name-->
+		<docker.image.prefix>renayearnshaw</docker.image.prefix>
+
+		<!--Set to name and version of image-->
+		<docker.image.name>rating-summary</docker.image.name>
+		<docker.image.version>${project.version}</docker.image.version>
+
 	</properties>
 
 	<dependencies>
@@ -96,6 +104,36 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.26.0</version>
+
+				<configuration>
+
+					<!--<dockerHost>http://127.0.0.1:2375</dockerHost>-->
+					<dockerHost>unix:///var/run/docker.sock</dockerHost>
+
+					<verbose>true</verbose>
+					<images>
+						<image>
+							<name>${docker.image.prefix}/${docker.image.name}</name>
+							<build>
+								<dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+
+								<!--copies artficact to docker build dir in target-->
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+								</assembly>
+								<tags>
+									<tag>latest</tag>
+									<tag>${project.version}</tag>
+								</tags>
+							</build>
+						</image>
+					</images>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
