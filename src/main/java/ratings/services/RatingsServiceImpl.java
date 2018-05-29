@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import ratings.exceptions.NotFoundException;
@@ -14,6 +16,7 @@ import ratings.model.Rating;
 public class RatingsServiceImpl implements RatingsService {
 
 	private final EstablishmentsService establishmentsService;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public RatingsServiceImpl(EstablishmentsService establishmentsService) {
 		this.establishmentsService = establishmentsService;
@@ -25,7 +28,9 @@ public class RatingsServiceImpl implements RatingsService {
 		List<Establishment> establishmentsInAuthority = establishmentsService.getEstablishmentsInAuthority(authorityId);
 
 		if (establishmentsInAuthority.isEmpty()) {
-			throw new NotFoundException(String.format("No establishments found for authority ID \'%d\'", authorityId));
+			String message = String.format("No establishments found for authority ID \'%d\'", authorityId);
+			logger.error(message);
+			throw new NotFoundException(message);
 		}
 
 		long totalCount = establishmentsInAuthority.parallelStream().count();

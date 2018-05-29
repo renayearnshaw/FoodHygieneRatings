@@ -1,5 +1,7 @@
 package ratings.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,6 +17,7 @@ public class EstablishmentsServiceImpl implements EstablishmentsService {
 	private final HttpHeaders headers;
 	private final UriComponentsBuilder builder;
 	private final RestTemplate restTemplate;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public EstablishmentsServiceImpl(HttpHeaders headers, UriComponentsBuilder builder, RestTemplate restTemplate) {
 		this.headers = headers;
@@ -25,8 +28,11 @@ public class EstablishmentsServiceImpl implements EstablishmentsService {
 
 	@Override
 	public List<Establishment> getEstablishmentsInAuthority(long authorityId) {
+		String url = builder.buildAndExpand(authorityId).toString();
+
+		logger.debug("Making call to external URL: " + url);
         ResponseEntity<EstablishmentResponse> response = restTemplate.exchange(
-				builder.buildAndExpand(authorityId).toString(),
+				url,
 				HttpMethod.GET,
 				new HttpEntity<>(headers),
 				EstablishmentResponse.class);
