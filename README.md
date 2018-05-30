@@ -24,4 +24,4 @@ Each rating category is shown, along with the percentage of premises that achiev
 1. Pull the image from Docker Hub using the following command:
 <br>``docker pull renayearnshaw/rating-summary``
 2. Run the application using:
-<br>``docker run -d -p 8080:8080 renayearnshaw/rating-summary``
+<br>``docker run -d -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=production" renayearnshaw/rating-summary``
