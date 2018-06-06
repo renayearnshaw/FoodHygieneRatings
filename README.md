@@ -9,6 +9,7 @@ The __FoodHygieneRatings__ project is written using SpringBoot and Thymeleaf.
 2. <http://localhost:8080/foodhygiene/authorities/{authorityId}/ratings>
 
 <p>The first endpoint displays a list of all the local authorities in England, Wales and Northern Ireland.
+(At the moment I only show the first twenty, to speed up the application - this will change in time)
 <p>By clicking on the <i>View</i> link for an authority, you are redirected to the second endpoint, 
 with the <i>authorityId</i> set to that of the authority you selected.
 This endpont summarizes the food safety ratings achieved by the businesses within the authority.

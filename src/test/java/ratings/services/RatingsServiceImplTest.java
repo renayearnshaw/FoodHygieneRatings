@@ -47,12 +47,12 @@ public class RatingsServiceImplTest {
                 .thenReturn(estabishments);
 
         //When
-        Map<String, String> ratingsSummary = ratingsService.getRatingSummaryForAuthority(VALID_AUTHORITY_ID);
+        Map<Rating, String> ratingsSummary = ratingsService.getRatingSummaryForAuthority(VALID_AUTHORITY_ID);
 
         //Then
         assertNotNull(ratingsSummary);
-        assertThat(ratingsSummary, IsMapContaining.hasEntry(Rating.FIVE_STAR.toString(), "75.00%"));
-        assertThat(ratingsSummary, IsMapContaining.hasEntry(Rating.ONE_STAR.toString(), "25.00%"));
+        assertThat(ratingsSummary, IsMapContaining.hasEntry(Rating.FIVE_STAR, "75.00%"));
+        assertThat(ratingsSummary, IsMapContaining.hasEntry(Rating.ONE_STAR, "25.00%"));
 
     }
 

@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ratings.exceptions.NotFoundException;
+import ratings.model.Rating;
 import ratings.services.RatingsService;
 
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class RatingsControllerTest {
     private static final long AUTHORITY_ID = 275;
     private static final long NON_EXISTENT_AUTHORITY_ID = 999999;
     private static final String NON_NUMERIC_AUTHORITY_ID = "klsjdflkds";
-    private static final String RATING_DESCRIPTION = "1-star";
+    private static final Rating RATING = Rating.ONE_STAR;
     private static final String RATING_PERCENTAGE = "2.57%";
 
     @Mock
@@ -83,7 +84,7 @@ public class RatingsControllerTest {
     @Test
     public void getRatings() {
         //Given
-        final Map<String, String> ratings = Collections.singletonMap(RATING_DESCRIPTION, RATING_PERCENTAGE);
+        final Map<Rating, String> ratings = Collections.singletonMap(RATING, RATING_PERCENTAGE);
         when(ratingsService.getRatingSummaryForAuthority(AUTHORITY_ID)).thenReturn(ratings);
         @SuppressWarnings("unchecked")
         ArgumentCaptor<Map<String, String>> argumentCaptor = ArgumentCaptor.forClass(Map.class);
@@ -97,7 +98,7 @@ public class RatingsControllerTest {
         verify(model, times(1)).addAttribute(eq("ratings"), argumentCaptor.capture());
         Map<String, String> ratingsInController = argumentCaptor.getValue();
         assertEquals(1, ratingsInController.size());
-        assertEquals(RATING_PERCENTAGE, ratingsInController.get(RATING_DESCRIPTION));
+        assertEquals(RATING_PERCENTAGE, ratingsInController.get(RATING));
         verify(model, times(1)).addAttribute(eq("authorityId"), eq(AUTHORITY_ID));
     }
 }

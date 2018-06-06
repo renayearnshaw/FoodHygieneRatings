@@ -1,7 +1,9 @@
 package ratings.services;
 
+import ratings.model.Rating;
+
 import java.util.Map;
 
 public interface RatingsService {
-    Map<String, String> getRatingSummaryForAuthority(long authorityId);
+    Map<Rating, String> getRatingSummaryForAuthority(long authorityId);
 }
