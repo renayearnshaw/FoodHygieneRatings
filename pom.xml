@@ -5,7 +5,7 @@
 
 	<groupId>FoodHygieneRatings</groupId>
 	<artifactId>ratings-summary</artifactId>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>FoodHygieneRatings</name>
