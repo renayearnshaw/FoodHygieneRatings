@@ -112,7 +112,6 @@
 
 				<configuration>
 
-					<!--<dockerHost>http://127.0.0.1:2375</dockerHost>-->
 					<dockerHost>unix:///var/run/docker.sock</dockerHost>
 
 					<verbose>true</verbose>
@@ -122,7 +121,7 @@
 							<build>
 								<dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
 
-								<!--copies artficact to docker build dir in target-->
+								<!--copies artifact to docker build dir in target-->
 								<assembly>
 									<descriptorRef>artifact</descriptorRef>
 								</assembly>

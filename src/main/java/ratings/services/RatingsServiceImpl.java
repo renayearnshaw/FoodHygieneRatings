@@ -34,20 +34,20 @@ public class RatingsServiceImpl implements RatingsService {
             throw new NotFoundException(message);
         }
 
-        long totalCount = establishmentsInAuthority.parallelStream().count();
-
-        return ratingsAsPercentage(establishmentsInAuthority, totalCount);
+        return ratingsAsPercentage(establishmentsInAuthority);
     }
 
-    private Map<Rating, String> ratingsAsPercentage(List<Establishment> establishmentsInAuthority, long totalCount) {
+    private Map<Rating, String> ratingsAsPercentage(List<Establishment> establishmentsInAuthority) {
         Map<Rating, Long> ratingsByTotal = establishmentsInAuthority.parallelStream()
                 .collect(groupingBy(Establishment::getRating, LinkedHashMap::new, counting()));
-        Map<Rating, String> ratingsByPercentage = ratingsByTotal.entrySet().parallelStream().collect(
+
+        long totalCount = ratingsByTotal.entrySet().stream().mapToLong(Map.Entry::getValue).sum();
+
+        return ratingsByTotal.entrySet().parallelStream().collect(
                 toMap(
                         Map.Entry::getKey,
                         e -> String.format("%,.2f%%", e.getValue() * 100.0f / totalCount),
                         (oldValue, newValue) -> oldValue,
                         LinkedHashMap::new));
-        return ratingsByPercentage;
     }
 }
