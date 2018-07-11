@@ -7,6 +7,7 @@ import ratings.exceptions.NotFoundException;
 import ratings.model.Establishment;
 import ratings.model.Rating;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,15 +40,19 @@ public class RatingsServiceImpl implements RatingsService {
 
     private Map<Rating, String> ratingsAsPercentage(List<Establishment> establishmentsInAuthority) {
         Map<Rating, Long> ratingsByTotal = establishmentsInAuthority.parallelStream()
-                .collect(groupingBy(Establishment::getRating, LinkedHashMap::new, counting()));
+                .collect(groupingBy(Establishment::getRating, counting()));
 
-        long totalCount = ratingsByTotal.entrySet().stream().mapToLong(Map.Entry::getValue).sum();
+        long totalCount = ratingsByTotal.values().stream().mapToLong(Long::longValue).sum();
 
-        return ratingsByTotal.entrySet().parallelStream().collect(
-                toMap(
-                        Map.Entry::getKey,
-                        e -> String.format("%,.2f%%", e.getValue() * 100.0f / totalCount),
-                        (oldValue, newValue) -> oldValue,
-                        LinkedHashMap::new));
+        return ratingsByTotal
+                .entrySet()
+                .stream()
+                .sorted(Comparator.comparingInt(e -> e.getKey().ordinal()))
+                .collect(
+                        toMap(
+                                Map.Entry::getKey,
+                                e -> String.format("%,.2f%%", e.getValue() * 100.0f / totalCount),
+                                (oldValue, newValue) -> oldValue,
+                                LinkedHashMap::new));
     }
 }
