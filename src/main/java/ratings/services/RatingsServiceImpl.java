@@ -47,7 +47,7 @@ public class RatingsServiceImpl implements RatingsService {
         return ratingsByTotal
                 .entrySet()
                 .stream()
-                .sorted(Comparator.comparingInt(e -> e.getKey().ordinal()))
+                .sorted(Map.Entry.comparingByKey())
                 .collect(
                         toMap(
                                 Map.Entry::getKey,
