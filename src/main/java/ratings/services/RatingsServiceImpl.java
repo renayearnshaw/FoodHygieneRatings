@@ -39,12 +39,12 @@ public class RatingsServiceImpl implements RatingsService {
     }
 
     private Map<Rating, String> ratingsAsPercentage(List<Establishment> establishmentsInAuthority) {
-        Map<Rating, Long> ratingsByTotal = establishmentsInAuthority.parallelStream()
-                .collect(groupingBy(Establishment::getRating, counting()));
+        Map<Rating, Long> ratingCount = establishmentsInAuthority.parallelStream()
+                .collect(groupingByConcurrent(Establishment::getRating, counting()));
 
-        long totalCount = ratingsByTotal.values().stream().mapToLong(Long::longValue).sum();
+        long totalCount = ratingCount.values().stream().mapToLong(Long::longValue).sum();
 
-        return ratingsByTotal
+        return ratingCount
                 .entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByKey())
