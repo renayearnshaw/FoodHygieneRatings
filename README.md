@@ -26,3 +26,6 @@ Each rating category is shown, along with the percentage of premises that achiev
 <br>``docker pull renayearnshaw/rating-summary``
 2. Run the application using:
 <br>``docker run -d -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=production" renayearnshaw/rating-summary``
+
+### Miscellaneous 
+I’ve implemented continuous integration for this project using _CircleCI_. Whenever a change is pushed to the repository, _CircleCI_ builds and tests the code. The status of the latest cycle is reflected in the _CircleCI_ badge displayed above.
