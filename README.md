@@ -3,7 +3,8 @@
 [![CircleCI](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings.svg?style=svg)](https://circleci.com/gh/renayearnshaw/food-hygiene-ratings)
 [![codecov](https://codecov.io/gh/renayearnshaw/food-hygiene-ratings/branch/master/graph/badge.svg)](https://codecov.io/gh/renayearnshaw/food-hygiene-ratings)
 
-The __FoodHygieneRatings__ project is written using SpringBoot and Thymeleaf.
+### Description
+The __FoodHygieneRatings__ project is written using Maven, SpringBoot and Thymeleaf.
 <br>It contains two endpoints:
 1. <http://localhost:8080/foodhygiene/authorities>
 2. <http://localhost:8080/foodhygiene/authorities/{authorityId}/ratings>
@@ -14,6 +15,11 @@ The __FoodHygieneRatings__ project is written using SpringBoot and Thymeleaf.
 with the <i>authorityId</i> set to that of the authority you selected.
 This endpoint summarizes the food safety ratings achieved by the businesses within the authority.
 Each rating category is shown, along with the percentage of premises that achieved that rating. 
+
+### Background
+The _Food Standards Agency_ rates restaurants and other food outlets with a hygiene rating from 1-5
+stars (or an “Exempt” rating). In Scotland, they are rated as “Pass” or “Needs Improvement”.
+<br>This web application uses the API and data sources at http://api.ratings.food.gov.uk/help to show how food hygiene ratings are distributed by percentage across a selected local authority. The _FSA’s_ API is a simple RESTful API that returns JSON.
 
 ### To run the application
 
