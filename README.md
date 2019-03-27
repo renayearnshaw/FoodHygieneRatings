@@ -29,3 +29,4 @@ Each rating category is shown, along with the percentage of premises that achiev
 
 ### Miscellaneous 
 I’ve implemented continuous integration for this project using _CircleCI_. Whenever a change is pushed to the repository, _CircleCI_ builds and tests the code. The status of the latest cycle is reflected in the _CircleCI_ badge displayed above.
+<br>Code coverage is implemented using _CodeCov_ as part of the _CircleCI_ build. The latest coverage percentage is displayed in the _CodeCov_ badge displayed above.
